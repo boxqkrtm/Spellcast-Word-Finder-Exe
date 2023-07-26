@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from spellcast import *
+import time
+import threading
 
 class App:
 	def __init__(self, root):
@@ -54,7 +56,7 @@ class App:
 		self.button["justify"] = "center"
 		self.button["text"] = "Generate Words"
 		self.button.place(x=xoff,y=yoff+160,width=160,height=25)
-		self.button["command"] = self.button_command
+		self.button["command"] = self.thread_button_command
 
 
 	class lblHover:
@@ -84,24 +86,24 @@ class App:
 				self.lineInput[i*5+j].configure(highlightbackground="black", highlightcolor="black", background="white", font=('Roboto', 16, tk.font.NORMAL), fg="black")
 				self.vals[i][j].set(self.temp[i][j])
 
-
+	def thread_button_command(self):
+		thread = threading.Thread(target=self.button_command)
+		thread.start()
+		self.button["state"] = tk.DISABLED
 	def button_command(self):
 		board = [[v.get().lower() for v in line] for line in self.vals]
 		self.wb.setBoard(board)
-
-		words = [
-			self.wb.bestWord(i) for i in range(3) # (best word, value, path, skipped)
-		]
-
 		wordLabelPrefix =[
 			"No swaps",
 			"One swap",
 			"Two swaps"
 		]
-		
-		for i, word in enumerate(words):
-			self.labels[i]["text"] = f"{wordLabelPrefix[i]}: {word[:2]}"
+		for i in range(3):
+			# thread
+			word = self.wb.bestWord(i)
+			self.labels[i]["text"] = f"{wordLabelPrefix[i]}: {word[0]} {word[1]}"
 			self.lblHover(self.labels[i], word[2], word[3], self.lineInput, self.vals, word[0])
+		self.button["state"] = tk.NORMAL
 
 	'''
 		TODO implement
