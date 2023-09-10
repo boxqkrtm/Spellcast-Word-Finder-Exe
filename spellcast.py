@@ -49,7 +49,7 @@ class WordBoard:
 
         self.letterVals = [v * maxCharMultiplier[LETTERS[i]] for i, v in enumerate(LETTERVALS)]
         self.boardValue = {(i, j): self.letterVals[ord(self.board[i][j].lower()) - ord('a')] for i, j in product(range(5), range(5))}
-        self.value = lambda word: sum(self.letterVals[ord(c.lower()) - ord('a')] for c in word if c.lower() in LETTERS) + (10 if len(word) > 6 else 0)
+        self.value = lambda word: sum(self.letterVals[ord(c.lower()) - ord('a')] for c in word if c.lower() in LETTERS)
         self.wordValues = [(self.value(word), word) for word in self.words]
         self.wordValues.sort(reverse=True)
     

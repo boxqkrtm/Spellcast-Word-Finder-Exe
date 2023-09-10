@@ -92,6 +92,7 @@ class App:
 		self.button["state"] = tk.DISABLED
 	def button_command(self):
 		board = [[v.get() for v in line] for line in self.vals]
+		double = (-1,-1)
 		for i in range(len(board)):
 			for j in range(len(board[0])):
 				coord = (i,j)
@@ -128,4 +129,3 @@ if __name__ == "__main__":
 	root = tk.Tk()
 	app = App(root)
 	root.mainloop()
-
