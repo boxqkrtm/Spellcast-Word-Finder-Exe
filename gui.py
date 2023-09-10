@@ -73,7 +73,7 @@ class App:
 			self.word = word
 
 		def hover(self):
-			for (i, j), c in zip(self.path[::-1], self.word):
+			for (i, j), c in zip(self.path[:], self.word):
 				self.lineInput[i*5+j].configure(highlightbackground="blue", highlightcolor="blue", background="blue", font=('Roboto', 20, tk.font.BOLD), fg="white")
 				if (i, j) in self.skipset:
 					self.vals[i][j].set(c)
@@ -91,7 +91,14 @@ class App:
 		thread.start()
 		self.button["state"] = tk.DISABLED
 	def button_command(self):
-		board = [[v.get().lower() for v in line] for line in self.vals]
+		board = [[v.get() for v in line] for line in self.vals]
+		for i in range(len(board)):
+			for j in range(len(board[0])):
+				coord = (i,j)
+				if(board[i][j].upper() == board[i][j]):
+					double = coord
+				board[i][j] = board[i][j].lower()
+		self.wb.double = double
 		self.wb.setBoard(board)
 		wordLabelPrefix =[
 			"No swaps",

@@ -33,6 +33,7 @@ class Trie:
 
 class WordBoard:
     def __init__(self):
+        self.double = (-1,-1)
         with open('words.txt') as f:
             self.words = [word[:-1] for word in f.readlines()]
         
@@ -119,16 +120,30 @@ class WordBoard:
         curVal = 0
         for _, word in self.wordValues:
             path, actualValue, skipped = self.boardContains(word, skips)
+            if(self.double in path):
+                actualValue *= 2
+                word += "(2x "  + str(actualValue//2) + "->" + str(actualValue) + ")"
+            if(len(word) >= 6):
+                actualValue += 10
+                word += "(long +10)"
+                
             if path and actualValue > curVal:
                 curVal = actualValue
                 curBest = (word, actualValue, path, skipped)
         return curBest
 
-
 if __name__ == "__main__":
     # Read board and create wordboard
-    board = [[c.lower() for c in input()] for _ in range(5)]
+    #input("input dl")
+    board = [[c for c in input()] for _ in range(5)]
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            coord = (i,j)
+            if(board[i][j].upper() == board[i][j]):
+                double = coord
+            board[i][j] = board[i][j].lower()
     wb = WordBoard()
+    wb.double = double
     wb.setBoard(board)
 
     # Find best words
