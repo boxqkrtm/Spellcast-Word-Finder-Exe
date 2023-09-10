@@ -69,7 +69,7 @@ class App:
 			self.label.bind('<Enter>', lambda _ : self.hover())
 			self.label.bind('<Leave>', lambda _ : self.unhover())
 			self.vals = vals
-			self.temp = [[v.get().lower() for v in line] for line in self.vals]
+			self.temp = [[v.get() for v in line] for line in self.vals]
 			self.word = word
 
 		def hover(self):
