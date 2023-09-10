@@ -120,16 +120,16 @@ class WordBoard:
         curVal = 0
         for _, word in self.wordValues:
             path, actualValue, skipped = self.boardContains(word, skips)
+            visword = word
             if(self.double in path):
                 actualValue *= 2
-                word += "(2x "  + str(actualValue//2) + "->" + str(actualValue) + ")"
+                visword += "(2x "  + str(actualValue//2) + "->" + str(actualValue) + ")"
             if(len(word) >= 6):
                 actualValue += 10
-                word += "(long +10)"
-                
+                visword += "(long +10)"
             if path and actualValue > curVal:
                 curVal = actualValue
-                curBest = (word, actualValue, path, skipped)
+                curBest = (visword, actualValue, path, skipped)
         return curBest
 
 if __name__ == "__main__":
